@@ -1,0 +1,29 @@
+<form [formGroup]="form">
+  <p>贈り主</p>
+  <input type="text" formControlName="giver" />
+  <button (click)="pushUser()">贈り先追加</button>
+  <div
+    *ngFor="let user of userFormGroups; index as userIndex"
+    formArrayName="users"
+  >
+    <p>贈り先{{ userIndex + 1 }}</p>
+    <button (click)="removeUser(userIndex)">贈り先削除</button>
+    <div [formGroupName]="userIndex">
+      <p>名前</p>
+      <input type="text" formControlName="name" />
+      <p>住所</p>
+      <input type="text" formControlName="address" />
+      <button (click)="pushItem(user)">商品追加</button>
+      <div
+        *ngFor="let item of getItemFormControls(user); index as itemIndex"
+        formArrayName="items"
+      >
+        <p>商品{{ itemIndex + 1 }}</p>
+        <input type="text" [formControlName]="itemIndex" />
+        <button (click)="removeItem(user, itemIndex)">商品削除</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+{{ form.value | json }}
